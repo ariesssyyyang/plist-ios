@@ -12,9 +12,22 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        printOutPropertyList()
     }
 
+    func printOutPropertyList() {
+        if let path = Bundle.main.path(forResource: "MyProperty", ofType: "plist"),
+            let xml = FileManager.default.contents(atPath: path) {
+            do {
 
+                if let propertyList = try PropertyListSerialization.propertyList(from: xml, options: .mutableContainersAndLeaves, format: nil) as? [String: Any] {
+                    print("😇 Property List: \(String(describing: propertyList))")
+                }
+            } catch (let error) {
+                print("👹 ERROR: \(error)")
+            }
+        }
+    }
 }
 
